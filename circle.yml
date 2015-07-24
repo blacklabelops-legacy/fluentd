@@ -11,5 +11,5 @@ dependencies:
 
 test:
   override:
-    - docker run blacklabelops/fluentd
-    - docker run blacklabelops/loggly
+    - docker run -d blacklabelops/fluentd
+    - docker run -d blacklabelops/loggly
