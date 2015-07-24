@@ -1,6 +1,10 @@
 # BlackLabelOps/Loggly
 
-Loggly side-car for logging from Docker containers to loggly.com.
+[![Docker Hub Info](http://dockeri.co/image/blacklabelops/loggly)](https://registry.hub.docker.com/u/blacklabelops/loggly)
+
+[![Docker Build Status](http://hubstatus.container42.com/blacklabelops/loggly)](https://registry.hub.docker.com/u/blacklabelops/loggly)
+[![Circle CI](https://circleci.com/gh/blacklabelops/fluentd/tree/master.svg?style=shield)](https://circleci.com/gh/blacklabelops/fluentd/tree/master)
+[![Image Layers](https://badge.imagelayers.io/blacklabelops/loggly:latest.svg)](https://imagelayers.io/?images=blacklabelops/loggly:latest 'Get your own badge on imagelayers.io')
 
 This is a side-car container that can hook to your docker or container logfiles. There is no additional
 need for log demons or logging processes inside your docker containers. It crawls for
