@@ -1,0 +1,70 @@
+#!/bin/bash -x
+#
+# A helper script for ENTRYPOINT.
+
+set -e
+
+log_dir="/var/log"
+
+if [ -n "${LOGS_DIR}" ]; then
+  log_dir=${LOGS_DIR}
+fi
+
+log_dirs=""
+
+if [ -n "${LOGS_DIRECTORIES}" ]; then
+  log_dirs=${LOGS_DIRECTORIES}
+else
+  log_dirs=${log_dir}
+fi
+
+logs_ending="log"
+LOGS_FILE_ENDINGS_INSTRUCTION=""
+
+if [ -n "${LOG_FILE_ENDINGS}" ]; then
+  logs_ending=${LOG_FILE_ENDINGS}
+fi
+
+SAVEIFS=$IFS
+IFS=' '
+COUNTER=0
+for ending in $logs_ending
+do
+  if [ "$COUNTER" -eq "0" ]; then
+    LOGS_FILE_ENDINGS_INSTRUCTION="$LOGS_FILE_ENDINGS_INSTRUCTION -iname "*.${ending}""
+  else
+    LOGS_FILE_ENDINGS_INSTRUCTION="$LOGS_FILE_ENDINGS_INSTRUCTION -o -iname "*.${ending}""
+  fi
+  let COUNTER=COUNTER+1
+done
+IFS=$SAVEIFS
+
+for d in ${log_dirs}
+do
+  LOG_FILES=$(find ${d} -type f $LOGS_FILE_ENDINGS_INSTRUCTION)
+  for f in $LOG_FILES
+  do
+    echo "Processing $f file..."
+    FILE_NAME=$(basename $f)
+    cat >> /etc/fluent/fluent.conf <<_EOF_
+
+<source>
+  type tail
+  path ${f}
+  tag containerlog.${FILE_NAME}
+  format none
+</source>
+
+_EOF_
+  done
+done
+
+
+
+cat /etc/fluent/fluent.conf
+
+if [ "$1" = 'fluentd' ]; then
+  fluentd -c /etc/fluent/fluent.conf -vv
+fi
+
+exec "$@"

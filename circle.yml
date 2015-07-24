@@ -1,0 +1,15 @@
+machine:
+  services:
+    - docker
+
+dependencies:
+  override:
+    - docker version
+    - docker info
+    - docker build -t="blacklabelops/fluentd" .
+    - docker build -t="blacklabelops/loggly" -f ./fluentd-loggly/Dockerfile fluentd-loggly/
+
+test:
+  override:
+    - docker run blacklabelops/fluentd
+    - docker run blacklabelops/loggly
