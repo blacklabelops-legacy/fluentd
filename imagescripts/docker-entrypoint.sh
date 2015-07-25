@@ -66,7 +66,7 @@ do
   type tail
   path ${f}
   tag containerlog.${FILE_NAME}
-  pos_file /opt/fluentd/${f}.pos
+  pos_file /opt/fluentd${f}.pos
   format ${log_format}
 </source>
 
