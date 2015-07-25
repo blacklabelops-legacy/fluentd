@@ -8,7 +8,7 @@ log_dir="/var/log"
 
 # Resetting the default configuration file for
 # repeated starts.
-if [ ! -f "/etc/fluent/fluent.conf" ]; then
+if [ ! -f "/etc/fluent/fluent.conf.old" ]; then
   cp /etc/fluent/fluent.conf /etc/fluent/fluent.conf.old
 else
   cp /etc/fluent/fluent.conf.old /etc/fluent/fluent.conf
