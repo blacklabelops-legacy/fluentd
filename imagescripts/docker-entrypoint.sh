@@ -33,6 +33,12 @@ if [ -n "${LOG_FILE_ENDINGS}" ]; then
   logs_ending=${LOG_FILE_ENDINGS}
 fi
 
+log_format="none"
+
+if [ -n "${LOG_FILE_FORMAT}" ]; then
+  log_format=${LOG_FILE_FORMAT}
+fi
+
 SAVEIFS=$IFS
 IFS=' '
 COUNTER=0
@@ -60,7 +66,8 @@ do
   type tail
   path ${f}
   tag containerlog.${FILE_NAME}
-  format none
+  pos_file /opt/fluentd/${f}.pos
+  format ${log_format}
 </source>
 
 _EOF_

@@ -103,6 +103,25 @@ $ docker logs fluentd
 ...
 ~~~~
 
+# Customize Log File Format
+
+You can customize the file fomat. The container will by default use the format **none**. This can be overriden by
+the parameter LOG_FILE_FORMAT:
+
+~~~~
+$ docker run -d \
+  --volumes-from jenkins \
+	-e "LOG_FILE_FORMAT=none" \
+  --name fluentd \
+  blacklabelops/fluentd
+~~~~
+
+> This parameter will be set for ALL logfiles. For more formats and regexes check the [Fluentd Documentation](http://docs.fluentd.org/articles/in_tail).
+
+# Pos Files
+
+Pose Files will be written to Docker Volume /opt/fluentd
+
 ## References
 
 * [Fluentd Homepage](http://www.fluentd.org/)

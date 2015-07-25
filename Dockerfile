@@ -13,9 +13,11 @@ RUN yum install -y \
 
 # install fluentd
 RUN gem install fluentd --no-ri --no-rdoc && \
-    fluentd --setup /etc/fluent
+    fluentd --setup /etc/fluent && \
+    mkdir /opt/fluentd
 
 WORKDIR /etc/fluent
+VOLUME ["/opt/fluentd"]
 COPY imagescripts/docker-entrypoint.sh /etc/fluent/docker-entrypoint.sh
 ENTRYPOINT ["/etc/fluent/docker-entrypoint.sh"]
 CMD ["fluentd"]
