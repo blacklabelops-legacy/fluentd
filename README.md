@@ -12,6 +12,20 @@ used for logging from cloud containers into services like loggly.
 
 The loggly output container version blacklabelops/loggly can be found [in fluentd-loggly/](./fluentd-loggly/README.md).
 
+# Make It Short
+
+In short, this container can collect all logs from your complete docker environment. Just by running:
+
+~~~~
+$ docker run -d \
+	-v /var/lib/docker/containers:/var/lib/docker/containers \
+	-v /var/log/docker:/var/log/docker \
+	-e "LOGS_DIRECTORIES=/var/lib/docker/containers /var/log/docker" \
+	blacklabelops/fluentd
+~~~~
+
+> Mounts the docker system logs and attaches to all log files in the respective directories.
+
 # Configuration
 
 In order to attach the side-car container to your logs you have to put your container's log inside
