@@ -4,7 +4,7 @@
 
 set -e
 
-loggly_tag="fluentd"
+loggly_tag="fluentdloggly"
 
 if [ -n "${LOGGLY_TAG}" ]; then
   loggly_tag=${LOGGLY_TAG}
