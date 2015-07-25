@@ -6,6 +6,14 @@ set -e
 
 log_dir="/var/log"
 
+# Resetting the default configuration file for
+# repeated starts.
+if [ ! -f "/etc/fluent/fluent.conf" ]; then
+  cp /etc/fluent/fluent.conf /etc/fluent/fluent.conf.old
+else
+  cp /etc/fluent/fluent.conf.old /etc/fluent/fluent.conf
+fi
+
 if [ -n "${LOGS_DIR}" ]; then
   log_dir=${LOGS_DIR}
 fi
@@ -58,8 +66,6 @@ do
 _EOF_
   done
 done
-
-
 
 cat /etc/fluent/fluent.conf
 
