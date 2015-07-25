@@ -59,6 +59,12 @@ do
   for f in $LOG_FILES
   do
     echo "Processing $f file..."
+    pos_file=/opt/fluentd${f}.pos
+    if [ ! -f "${pos_file}" ]; then
+      DIR_NAME=$(dirname $pos_file)
+      mkdir -p ${DIR_NAME}
+      touch ${pos_file}
+    fi
     FILE_NAME=$(basename $f)
     cat >> /etc/fluent/fluent.conf <<_EOF_
 
@@ -66,7 +72,7 @@ do
   type tail
   path ${f}
   tag containerlog.${FILE_NAME}
-  pos_file /opt/fluentd${f}.pos
+  pos_file ${pos_file}
   format ${log_format}
 </source>
 
@@ -77,7 +83,7 @@ done
 cat /etc/fluent/fluent.conf
 
 if [ "$1" = 'fluentd' ]; then
-  fluentd -c /etc/fluent/fluent.conf -vv
+  fluentd -c /etc/fluent/fluent.conf -vv > /opt/fluentd/fluentd.log
 fi
 
 exec "$@"

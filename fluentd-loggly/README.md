@@ -12,22 +12,6 @@ log files inside docker volumes and logs to loggly.
 
 Great for Cloud Containers! I use this inside the Google Container Cloud.
 
-# Make It Short
-
-In short, this container can collect all logs from your complete docker environment and forward them live to loggly. Just by running:
-
-~~~~
-$ docker run -d \
-	-v /var/lib/docker/containers:/var/lib/docker/containers \
-	-v /var/log/docker:/var/log/docker \
-	-e "LOGS_DIRECTORIES=/var/lib/docker/containers /var/log/docker" \
-	-e "LOGGLY_TOKEN=3ere-23kkke-23j3oj-mmkme-343" \
-	--name loggly \
-	blacklabelops/loggly
-~~~~
-
-> Mounts the docker system logs and attaches to all log files in the respective directories. You need a loggly access token from loggly.com.
-
 # Configuration
 
 In order to attach the side-car container to your logs you have to put your container's log inside
