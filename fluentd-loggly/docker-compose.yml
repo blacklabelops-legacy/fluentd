@@ -1,0 +1,10 @@
+jenkins:
+  image: blacklabelops/fluentd
+  volumes:
+   - /opt/fluentd
+  environment:
+     - 'LOGS_DIRECTORIES=/var/log'
+     - 'LOG_FILE_ENDINGS=log'
+     - 'LOG_FILE_FORMAT=none'
+     - 'LOGGLY_TOKEN=Your-Loggly-Com-Token'
+     - 'LOGGLY_TAG=fluentdloggly'
