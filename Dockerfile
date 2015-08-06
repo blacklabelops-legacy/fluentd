@@ -1,4 +1,4 @@
-FROM blacklabelops/centos
+FROM blacklabelops/centos:7.1.503
 MAINTAINER Steffen Bleul <blacklabelops@itbleul.de>
 
 # install dev tools
@@ -12,7 +12,7 @@ RUN yum install -y \
     yum clean all && rm -rf /var/cache/yum/*
 
 # install fluentd
-RUN gem install fluentd --no-ri --no-rdoc && \
+RUN gem install fluentd:0.12.15 --no-ri --no-rdoc && \
     fluentd --setup /etc/fluent && \
     mkdir /opt/fluentd
 
