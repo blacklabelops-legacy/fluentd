@@ -28,7 +28,7 @@ _EOF_
 fi
 
 # Invoke entrypoint of parent container
-if [ "$1" = 'loggly' ]; then
+if [ "$1" = 'fluentd' ]; then
   /etc/fluent/docker-entrypoint.sh $@
 fi
 

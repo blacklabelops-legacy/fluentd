@@ -10,4 +10,4 @@ ENV LOGGLY_MATCH=
 WORKDIR /etc/fluent
 COPY imagescripts/docker-entrypoint.sh /etc/fluent/docker-loggly-entrypoint.sh
 ENTRYPOINT ["/etc/fluent/docker-loggly-entrypoint.sh"]
-CMD ["loggly"]
+CMD ["fluentd"]
