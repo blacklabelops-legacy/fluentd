@@ -83,8 +83,7 @@ done
 cat /etc/fluent/fluent.conf
 
 if [ "$1" = 'fluentd' ]; then
-  size=$((1024*1024*1024))
-  fluentd -c /etc/fluent/fluent.conf -vv | head -c ${size} >> /opt/fluentd/fluentd.log
+  fluentd -c /etc/fluent/fluent.conf | tee -a  /opt/fluentd/fluentd.log
 fi
 
 exec "$@"
