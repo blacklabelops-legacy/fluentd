@@ -190,6 +190,42 @@ $ docker run -d \
 
 > No attached logs will be written, the fluentd container is practically useless without another out plugin.
 
+# How To Extend This Image
+
+Use this Dockerfile template:
+
+~~~~
+FROM blacklabelops/fluentd
+MAINTAINER You
+
+#Install plugins and tools
+RUN gem install ...
+
+# disable file logging from base container
+ENV DISABLE_FILE_OUT=true
+
+WORKDIR /etc/fluent
+COPY your-docker-entrypoint.sh /your/locations/your-docker-entrypoint.sh
+ENTRYPOINT ["/your/locations/your-docker-entrypoint.sh"]
+CMD ["fluentd"]
+~~~~
+
+Write your entrypoint like this:
+
+~~~~
+#!/bin/bash
+
+# your instructions
+...
+
+# Invoke entrypoint of parent container
+if [ "$1" = 'fluentd' ]; then
+  /etc/fluent/docker-entrypoint.sh $@
+fi
+
+exec "$@"
+~~~~
+
 # Vagrant
 
 Vagrant is fabulous tool for pulling and spinning up virtual machines like docker with containers. I can configure my development and test environment and simply pull it online. And so can you! Install Vagrant and Virtualbox and spin it up. Change into the project folder and build the project on the spot!
