@@ -141,14 +141,14 @@ The full documentation can be found here: [file Output Plugin](http://docs.fluen
 
 You can override parameters with the following environment variables, see the plugin documentation for valid values:
 
-* FILE_LOG_PATH corresponds to plugin parameter path.
-* FILE_LOG_TIME_SLICE_FORMAT corresponds to plugin parameter time_slice_format.
-* FILE_LOG_TIME_SLICE_WAIT corresponds to plugin parameter time_slice_wait.
-* FILE_LOG_TIME_FORMAT corresponds to plugin parameter time_format.
-* FILE_LOG_FLUSH_INTERVAL corresponds to plugin parameter flush_interval.
-* FILE_LOG_COMPRESS corresponds to plugin parameter compress
-* FILE_LOG_APPEND corresponds to plugin parameter append
-* FILE_LOG_FORMAT corresponds to plugin parameter format
+* FILE_LOG_PATH corresponds to plugin parameter `path`.
+* FILE_LOG_TIME_SLICE_FORMAT corresponds to plugin parameter `time_slice_format`.
+* FILE_LOG_TIME_SLICE_WAIT corresponds to plugin parameter `time_slice_wait`.
+* FILE_LOG_TIME_FORMAT corresponds to plugin parameter `time_format`.
+* FILE_LOG_FLUSH_INTERVAL corresponds to plugin parameter `flush_interval`.
+* FILE_LOG_COMPRESS corresponds to plugin parameter `compress`
+* FILE_LOG_APPEND corresponds to plugin parameter `append`
+* FILE_LOG_FORMAT corresponds to plugin parameter `format`
 
 Full example:
 
