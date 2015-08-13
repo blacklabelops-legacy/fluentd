@@ -37,7 +37,7 @@ Now list the log files:
 $ ls logs/
 ~~~~
 
-# How To Attach Containers and Their Logs
+# How To Attach Containers and Logs
 
 In order to attach the side-car container to your logs you have to put your container's log inside
 Docker volumes. Simply add **-v /var/log** to your container's run command.
