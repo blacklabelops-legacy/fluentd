@@ -152,6 +152,10 @@ cat /etc/fluent/fluent.conf
 cp /etc/fluent/fluent.conf /opt/fluentd/fluent.conf
 cp /etc/fluent/fluent.conf.old /opt/fluentd/fluent.conf.old
 
+if [ -n "${DELAYED_START}" ]; then
+  exec sleep ${DELAYED_START}
+fi
+
 if [ "$1" = 'fluentd' ]; then
   fluentd -c /etc/fluent/fluent.conf
 fi
