@@ -55,18 +55,19 @@ IFS=$SAVEIFS
 
 for d in ${log_dirs}
 do
-  LOG_FILES=$(find ${d} -type f $LOGS_FILE_ENDINGS_INSTRUCTION)
-  for f in $LOG_FILES
+  LOG_FILES=
+  for f in $(find ${d} -type f $LOGS_FILE_ENDINGS_INSTRUCTION);
   do
-    echo "Processing $f file..."
-    pos_file=/opt/fluentd${f}.pos
-    if [ ! -f "${pos_file}" ]; then
-      DIR_NAME=$(dirname $pos_file)
-      mkdir -p ${DIR_NAME}
-      touch ${pos_file}
-    fi
-    FILE_NAME=$(basename $f)
-    cat >> /etc/fluent/fluent.conf <<_EOF_
+    if [ -f "${f}" ]; then
+      echo "Processing $f file..."
+      pos_file=/opt/fluentd${f}.pos
+      if [ ! -f "${pos_file}" ]; then
+        DIR_NAME=$(dirname $pos_file)
+        mkdir -p ${DIR_NAME}
+        touch ${pos_file}
+      fi
+      FILE_NAME=$(basename $f)
+      cat >> /etc/fluent/fluent.conf <<_EOF_
 
 <source>
   type tail
@@ -77,6 +78,7 @@ do
 </source>
 
 _EOF_
+    fi
   done
 done
 
