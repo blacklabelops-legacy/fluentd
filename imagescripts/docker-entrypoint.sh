@@ -4,6 +4,10 @@
 
 set -e
 
+if [ -n "${DELAYED_START}" ]; then
+  sleep ${DELAYED_START}
+fi
+
 log_dir="/var/log"
 
 # Resetting the default configuration file for
@@ -153,10 +157,6 @@ fi
 cat /etc/fluent/fluent.conf
 cp /etc/fluent/fluent.conf /opt/fluentd/fluent.conf
 cp /etc/fluent/fluent.conf.old /opt/fluentd/fluent.conf.old
-
-if [ -n "${DELAYED_START}" ]; then
-  sleep ${DELAYED_START}
-fi
 
 if [ "$1" = 'fluentd' ]; then
   fluentd -c /etc/fluent/fluent.conf
