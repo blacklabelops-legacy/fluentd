@@ -82,6 +82,41 @@ _EOF_
   done
 done
 
+all_log_dirs=""
+
+if [ -n "${ALL_LOGS_DIRECTORIES}" ]; then
+  all_log_dirs=${ALL_LOGS_DIRECTORIES}
+fi
+
+for d in ${all_log_dirs}
+do
+  LOG_FILES=
+  for f in $(find ${d});
+  do
+    if [ -f "${f}" ]; then
+      echo "Processing $f file..."
+      pos_file=/opt/fluentd${f}.pos
+      if [ ! -f "${pos_file}" ]; then
+        DIR_NAME=$(dirname $pos_file)
+        mkdir -p ${DIR_NAME}
+        touch ${pos_file}
+      fi
+      FILE_NAME=$(basename $f)
+      cat >> /etc/fluent/fluent.conf <<_EOF_
+
+<source>
+  type tail
+  path ${f}
+  tag containerlog.${FILE_NAME}
+  pos_file ${pos_file}
+  format ${log_format}
+</source>
+
+_EOF_
+    fi
+  done
+done
+
 file_log_path="/opt/fluentd/logs/container"
 
 if [ -n "${FILE_LOG_PATH}" ]; then
