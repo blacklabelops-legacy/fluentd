@@ -17,7 +17,7 @@ RUN gem install fluentd --no-ri --no-rdoc && \
     mkdir /opt/fluentd
 
 WORKDIR /etc/fluent
-VOLUME ["/opt/fluent"]
+VOLUME ["/posfiles"]
 COPY imagescripts/docker-entrypoint.sh /etc/fluent/docker-entrypoint.sh
 COPY configuration/fluent.conf /opt/fluentd/fluent.conf
 ENTRYPOINT ["/etc/fluent/docker-entrypoint.sh"]
