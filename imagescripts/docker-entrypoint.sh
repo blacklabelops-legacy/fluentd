@@ -95,7 +95,7 @@ do
   do
     if [ -f "${f}" ]; then
       echo "Processing $f file..."
-      pos_file=/opt/fluentd${f}.pos
+      pos_file=/posfiles/fluentd${f}.pos
       if [ ! -f "${pos_file}" ]; then
         DIR_NAME=$(dirname $pos_file)
         mkdir -p ${DIR_NAME}
