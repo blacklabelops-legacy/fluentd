@@ -4,6 +4,9 @@
 
 set -e
 
+# Resetting conf file on each startup
+cp /opt/fluentd/fluent.conf /etc/fluent.conf
+
 loggly_tag="fluentdloggly"
 
 if [ -n "${LOGGLY_TAG}" ]; then
