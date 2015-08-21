@@ -2,7 +2,6 @@
 
 [![Docker Hub Info](http://dockeri.co/image/blacklabelops/loggly)](https://registry.hub.docker.com/u/blacklabelops/loggly)
 
-[![Docker Build Status](http://hubstatus.container42.com/blacklabelops/loggly)](https://registry.hub.docker.com/u/blacklabelops/loggly)
 [![Circle CI](https://circleci.com/gh/blacklabelops/fluentd/tree/master.svg?style=shield)](https://circleci.com/gh/blacklabelops/fluentd/tree/master)
 [![Image Layers](https://badge.imagelayers.io/blacklabelops/loggly:latest.svg)](https://imagelayers.io/?images=blacklabelops/loggly:latest 'Get your own badge on imagelayers.io')
 

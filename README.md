@@ -1,6 +1,5 @@
 [![Docker Hub Info](http://dockeri.co/image/blacklabelops/fluentd)](https://registry.hub.docker.com/u/blacklabelops/fluentd)
 
-[![Docker Build Status](http://hubstatus.container42.com/blacklabelops/fluentd)](https://registry.hub.docker.com/u/blacklabelops/fluentd)
 [![Circle CI](https://circleci.com/gh/blacklabelops/fluentd/tree/master.svg?style=shield)](https://circleci.com/gh/blacklabelops/fluentd/tree/master)
 [![Image Layers](https://badge.imagelayers.io/blacklabelops/fluentd:latest.svg)](https://imagelayers.io/?images=blacklabelops/fluentd:latest 'Get your own badge on imagelayers.io')
 
