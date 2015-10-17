@@ -28,6 +28,12 @@ fi
 
 logs_ending="log"
 LOGS_FILE_ENDINGS_INSTRUCTION=""
+log_file_pattern=""
+
+if [ -n "${LOG_FILE_PATTERN}" ]; then
+  log_file_pattern=${LOG_FILE_PATTERN}
+  logs_ending=
+fi
 
 if [ -n "${LOG_FILE_ENDINGS}" ]; then
   logs_ending=${LOG_FILE_ENDINGS}
@@ -39,71 +45,42 @@ if [ -n "${LOG_FILE_FORMAT}" ]; then
   log_format=${LOG_FILE_FORMAT}
 fi
 
-SAVEIFS=$IFS
-IFS=' '
-COUNTER=0
-for ending in $logs_ending
-do
-  if [ "$COUNTER" -eq "0" ]; then
-    LOGS_FILE_ENDINGS_INSTRUCTION="$LOGS_FILE_ENDINGS_INSTRUCTION -iname "*.${ending}""
-  else
-    LOGS_FILE_ENDINGS_INSTRUCTION="$LOGS_FILE_ENDINGS_INSTRUCTION -o -iname "*.${ending}""
-  fi
-  let COUNTER=COUNTER+1
-done
-IFS=$SAVEIFS
+log_file_ignore_pattern=""
 
-for d in ${log_dirs}
-do
-  LOG_FILES=
-  for f in $(find ${d} -type f $LOGS_FILE_ENDINGS_INSTRUCTION);
-  do
-    if [ -f "${f}" ]; then
-      echo "Processing $f file..."
-      pos_file=/posfiles/fluentd${f}.pos
-      if [ ! -f "${pos_file}" ]; then
-        DIR_NAME=$(dirname $pos_file)
-        mkdir -p ${DIR_NAME}
-        touch ${pos_file}
-      fi
-      FILE_NAME=$(basename $f)
-      cat >> /etc/fluent/fluent.conf <<_EOF_
-
-<source>
-  type tail
-  path ${f}
-  tag containerlog.${FILE_NAME}
-  pos_file ${pos_file}
-  format ${log_format}
-</source>
-
-_EOF_
-    fi
-  done
-done
-
-all_log_dirs=""
-
-if [ -n "${ALL_LOGS_DIRECTORIES}" ]; then
-  all_log_dirs=${ALL_LOGS_DIRECTORIES}
+if [ -n "${LOG_FILE_IGNORE_PATTERN}" ]; then
+  log_file_ignore_pattern=${LOG_FILE_IGNORE_PATTERN}
 fi
 
-for d in ${all_log_dirs}
-do
-  LOG_FILES=
-  for f in $(find ${d});
+if [ -n "${logs_ending}" ]; then
+  SAVEIFS=$IFS
+  IFS=' '
+  COUNTER=0
+  for ending in $logs_ending
   do
-    if [ -f "${f}" ]; then
-      echo "Processing $f file..."
-      pos_file=/posfiles/fluentd${f}.pos
-      if [ ! -f "${pos_file}" ]; then
-        DIR_NAME=$(dirname $pos_file)
-        mkdir -p ${DIR_NAME}
-        touch ${pos_file}
-      fi
-      FILE_NAME=$(basename $f)
-      cat >> /etc/fluent/fluent.conf <<_EOF_
+    if [ "$COUNTER" -eq "0" ]; then
+      LOGS_FILE_ENDINGS_INSTRUCTION="$LOGS_FILE_ENDINGS_INSTRUCTION -iname "*.${ending}""
+    else
+      LOGS_FILE_ENDINGS_INSTRUCTION="$LOGS_FILE_ENDINGS_INSTRUCTION -o -iname "*.${ending}""
+    fi
+    let COUNTER=COUNTER+1
+  done
+  IFS=$SAVEIFS
 
+  for d in ${log_dirs}
+  do
+    LOG_FILES=
+    for f in $(find ${d} -type f $LOGS_FILE_ENDINGS_INSTRUCTION);
+    do
+      if [ -f "${f}" ]; then
+        echo "Processing $f file..."
+        pos_file=/posfiles/fluentd${f}.pos
+        if [ ! -f "${pos_file}" ]; then
+          DIR_NAME=$(dirname $pos_file)
+          mkdir -p ${DIR_NAME}
+          touch ${pos_file}
+        fi
+        FILE_NAME=$(basename $f)
+        cat >> /etc/fluent/fluent.conf <<_EOF_
 <source>
   type tail
   path ${f}
@@ -111,11 +88,48 @@ do
   pos_file ${pos_file}
   format ${log_format}
 </source>
+_EOF_
+      fi
+    done
+  done
+fi
+
+SAVEIFS=$IFS
+IFS=' '
+for pattern in "${log_file_pattern}"
+do
+  for d in ${log_dirs}
+  do
+    LOG_FILES=
+    IFS=$SAVEIFS
+    for f in $(find ${d} -type f -iname "${pattern}");
+    do
+      if [ -f "${f}" ]; then
+        echo "Processing $f file..."
+        pos_file=/posfiles/fluentd${f}.pos
+        if [ ! -f "${pos_file}" ]; then
+          DIR_NAME=$(dirname $pos_file)
+          mkdir -p ${DIR_NAME}
+          touch ${pos_file}
+        fi
+        FILE_NAME=$(basename $f)
+        cat >> /etc/fluent/fluent.conf <<_EOF_
+
+  <source>
+    type tail
+    path ${f}
+    tag containerlog.${FILE_NAME}
+    pos_file ${pos_file}
+    format ${log_format}
+  </source>
 
 _EOF_
-    fi
+      fi
+    done
+    IFS=' '
   done
 done
+IFS=$SAVEIFS
 
 file_log_path="/opt/fluentd/logs/container"
 

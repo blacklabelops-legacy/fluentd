@@ -72,7 +72,24 @@ $ docker logs fluentd
 ...
 ~~~~
 
-## Customize Log Folder
+# Log File Pattern
+
+Log file pattern with the ability to define file patterns.
+
+~~~~
+$ docker run -d \
+  --volumes-from jenkins \
+  -e "LOGS_DIRECTORIES=/var/log" \
+	-e "LOG_FILE_PATTERN=*"
+  --name fluentd \
+  blacklabelops/fluentd
+~~~~
+
+> Attaches to all files inside those folders
+
+# Log File Regex
+
+# Customize Log Folder
 
 You can define your own log folders. The container will by default crawl for
 files ending with **.log**. log folder have to be separated by empty spaces. This is useful when you mount volumes from several containers.
@@ -87,33 +104,11 @@ $ docker run -d \
 
 > Will crawl for log files inside /var/log and /jenkins
 
-## Customize Log File Ending
+# Customize Log File Ending
 
-You can define the file endings fluentd will attach to. The container will by default crawl for
-files ending with **.log**. This can be overriden and extended to any amount of file endings.
+*THIS IS DEPRECATED! USE LOG FILE PATTERN INSTEAD!*
 
-~~~~
-$ docker run -d \
-  --volumes-from jenkins \
-  -e "LOGS_DIRECTORIES=/jenkins" \
-  -e "LOG_FILE_ENDINGS=log xml" \
-  --name fluentd \
-  blacklabelops/fluentd
-~~~~
-
-> Crawls for file endings .log and .xml.
-
-You can check and see that fluentd attaches to any xml file he can find under /jenkins:
-
-~~~~
-$ docker logs fluentd
-...
-2015-07-24 19:28:48 +0000 [info]: plugin/in_tail.rb:477:initialize: following tail of /jenkins/plugins/mailer/META-INF/maven/org.jenkins-ci.plugins/mailer/pom.xml
-2015-07-24 19:28:48 +0000 [info]: plugin/in_tail.rb:477:initialize: following tail of /jenkins/plugins/maven-plugin/WEB-INF/licenses.xml
-...
-~~~~
-
-## Customize Log File Format
+# Customize Log File Format
 
 You can customize the file fomat. The container will by default use the format **none**. This can be overriden by
 the parameter LOG_FILE_FORMAT:
@@ -128,7 +123,7 @@ $ docker run -d \
 
 > This parameter will be set for ALL logfiles. For more formats and regexes check the [Fluentd Documentation](http://docs.fluentd.org/articles/in_tail).
 
-## Pos Files
+# Pos Files
 
 Pose Files will be written to Docker Volume /opt/fluentd
 
@@ -170,7 +165,7 @@ $ docker run -d \
 
 > Logs all docker logs with the specified plugin parameters.
 
-## Disabling the Basic behavior
+# Disabling the Basic behavior
 
 You can disable the file log out. This is useful when using this container as a base image for
 your custom container. The log file is disabled by the environment variable `DISABLE_FILE_OUT`.
@@ -246,7 +241,7 @@ First install:
 * [Virtualbox](https://www.virtualbox.org/)
 
 
-## References
+# References
 
 * [Fluentd Homepage](http://www.fluentd.org/)
 * [Docker Homepage](https://www.docker.com/)
