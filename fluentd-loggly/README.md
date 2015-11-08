@@ -1,5 +1,6 @@
 [![Circle CI](https://circleci.com/gh/blacklabelops/fluentd/tree/master.svg?style=shield)](https://circleci.com/gh/blacklabelops/fluentd/tree/master)
 [![Image Layers](https://badge.imagelayers.io/blacklabelops/loggly:latest.svg)](https://imagelayers.io/?images=blacklabelops/loggly:latest 'Get your own badge on imagelayers.io')
+[![Docker Repository on Quay](https://quay.io/repository/blacklabelops/loggly/status "Docker Repository on Quay")](https://quay.io/repository/blacklabelops/loggly)
 
 Leave a message and ask questions on Hipchat: [blacklabelops/hipchat](https://www.hipchat.com/geogBFvEM)
 
