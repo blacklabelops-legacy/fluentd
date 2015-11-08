@@ -101,7 +101,7 @@ do
   for d in ${log_dirs}
   do
     LOG_FILES=
-    IFS=$SAVEIFS
+    IFS='\n'
     for f in $(find ${d} -type f -iname "${pattern}");
     do
       if [ -f "${f}" ]; then
