@@ -79,7 +79,7 @@ Log file pattern with the ability to define file patterns.
 $ docker run -d \
   --volumes-from jenkins \
   -e "LOGS_DIRECTORIES=/var/log" \
-	-e "LOG_FILE_PATTERN=*"
+	-e "LOG_FILE_PATTERN=*" \
   --name fluentd \
   blacklabelops/fluentd
 ~~~~

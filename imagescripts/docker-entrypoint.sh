@@ -102,8 +102,7 @@ do
   do
     IFS=$SAVEIFS
     LOG_FILES=$(find ${d} -type f -iname "${pattern}")
-    ARRAY=$(echo $LOG_FILES | tr "\n")
-    for f in $ARRAY;
+    for f in $LOG_FILES;
     do
       if [ -f "${f}" ]; then
         echo "Processing $f file..."
