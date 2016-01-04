@@ -1,7 +1,7 @@
-FROM blacklabelops/fluentd:0.12.19
+FROM blacklabelops/fluentd
 MAINTAINER Steffen Bleul <sbl@blacklabelops.com>
 
-RUN gem install fluent-plugin-loggly:0.0.7
+RUN gem install fluent-plugin-loggly
 
 ENV LOGGLY_TOKEN=
 ENV LOGGLY_TAG=
