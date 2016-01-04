@@ -1,5 +1,5 @@
 FROM blacklabelops/fluentd
-MAINTAINER Steffen Bleul <blacklabelops@itbleul.de>
+MAINTAINER Steffen Bleul <sbl@blacklabelops.com>
 
 RUN gem install fluent-plugin-loggly
 
