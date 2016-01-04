@@ -100,9 +100,10 @@ for pattern in "${log_file_pattern}"
 do
   for d in ${log_dirs}
   do
-    LOG_FILES=
-    IFS='\n'
-    for f in $(find ${d} -type f -iname "${pattern}");
+    IFS=$SAVEIFS
+    LOG_FILES=$(find ${d} -type f -iname "${pattern}")
+    ARRAY=$(echo $LOG_FILES | tr "\n")
+    for f in $ARRAY;
     do
       if [ -f "${f}" ]; then
         echo "Processing $f file..."
