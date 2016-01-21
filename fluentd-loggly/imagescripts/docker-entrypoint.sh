@@ -4,6 +4,10 @@
 
 set -e
 
+if [ -n "${LOGGLY_ENV_FILE}" ]; then
+  source ${LOGGLY_ENV_FILE}
+fi
+
 # Resetting conf file on each startup
 cp /opt/fluentd/fluent.conf /etc/fluent.conf
 
@@ -29,6 +33,8 @@ if [ -n "${LOGGLY_TOKEN}" ]; then
 
 _EOF_
 fi
+
+unset LOGGLY_TOKEN
 
 # Invoke entrypoint of parent container
 if [ "$1" = 'fluentd' ]; then
