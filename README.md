@@ -1,17 +1,8 @@
-[![Circle CI](https://circleci.com/gh/blacklabelops/fluentd/tree/master.svg?style=shield)](https://circleci.com/gh/blacklabelops/fluentd/tree/master)
-[![Image Layers](https://badge.imagelayers.io/blacklabelops/fluentd:latest.svg)](https://imagelayers.io/?images=blacklabelops/fluentd:latest 'Get your own badge on imagelayers.io')
+# Dockerized Fluentd
+
+[![Docker Stars](https://img.shields.io/docker/stars/blacklabelops/jenkins.svg)](https://hub.docker.com/r/blacklabelops/fluentd/) [![Docker Pulls](https://img.shields.io/docker/pulls/blacklabelops/jenkins.svg)](https://hub.docker.com/r/blacklabelops/fluentd/)
 
 Leave a message and ask questions on Hipchat: [blacklabelops/hipchat](https://www.hipchat.com/geogBFvEM)
-
-This is a side-car container that can hook to your docker or container logfiles. There is no additional
-need for log demons or logging processes inside your docker containers. It crawls for
-log files inside docker volumes and attach them to fluentd. The default
-behavior of this container is aggregating all logs inside one output logfile.
-
-This container can be used as a base container for any output scenario:
-
-* [Loggly](https://www.loggly.com/): The loggly output container version blacklabelops/loggly can be found in [fluentd-loggly/](./fluentd-loggly/README.md).
-* [Files](https://github.com/blacklabelops/fluentd): This one.
 
 # Make It Short
 
@@ -22,7 +13,7 @@ $ docker run -d \
 	-v /var/lib/docker/containers:/var/lib/docker/containers \
 	-v /var/log/docker:/var/log/docker \
 	-v $(pwd)/logs:/opt/fluentd/logs \
-	-e "LOGS_DIRECTORIES=/var/lib/docker/containers /var/log/docker" \
+	-e "TAIL_LOGS_DIRECTORIES=/var/lib/docker/containers /var/log/docker" \
 	blacklabelops/fluentd
 ~~~~
 
@@ -78,8 +69,8 @@ Log file pattern with the ability to define file patterns.
 ~~~~
 $ docker run -d \
   --volumes-from jenkins \
-  -e "LOGS_DIRECTORIES=/var/log" \
-	-e "LOG_FILE_PATTERN=*" \
+  -e "TAIL_LOGS_DIRECTORIES=/var/log" \
+	-e "TAIL_LOG_FILE_PATTERN=*" \
   --name fluentd \
   blacklabelops/fluentd
 ~~~~
@@ -96,7 +87,7 @@ files ending with **.log**. log folder have to be separated by empty spaces. Thi
 ~~~~
 $ docker run -d \
   --volumes-from jenkins \
-  -e "LOGS_DIRECTORIES=/var/log /jenkins" \
+  -e "TAIL_LOGS_DIRECTORIES=/var/log /jenkins" \
   --name fluentd \
   blacklabelops/fluentd
 ~~~~
@@ -115,7 +106,7 @@ the parameter LOG_FILE_FORMAT:
 ~~~~
 $ docker run -d \
   --volumes-from jenkins \
-	-e "LOG_FILE_FORMAT=none" \
+	-e "TAIL_LOG_FILE_FORMAT=none" \
   --name fluentd \
   blacklabelops/fluentd
 ~~~~
@@ -134,14 +125,14 @@ The full documentation can be found here: [file Output Plugin](http://docs.fluen
 
 You can override parameters with the following environment variables, see the plugin documentation for valid values:
 
-* FILE_LOG_PATH corresponds to plugin parameter `path`.
-* FILE_LOG_TIME_SLICE_FORMAT corresponds to plugin parameter `time_slice_format`.
-* FILE_LOG_TIME_SLICE_WAIT corresponds to plugin parameter `time_slice_wait`.
-* FILE_LOG_TIME_FORMAT corresponds to plugin parameter `time_format`.
-* FILE_LOG_FLUSH_INTERVAL corresponds to plugin parameter `flush_interval`.
-* FILE_LOG_COMPRESS corresponds to plugin parameter `compress`
-* FILE_LOG_APPEND corresponds to plugin parameter `append`
-* FILE_LOG_FORMAT corresponds to plugin parameter `format`
+* TAIL_FILE_LOG_PATH corresponds to plugin parameter `path`.
+* TAIL_FILE_LOG_TIME_SLICE_FORMAT corresponds to plugin parameter `time_slice_format`.
+* TAIL_FILE_LOG_TIME_SLICE_WAIT corresponds to plugin parameter `time_slice_wait`.
+* TAIL_FILE_LOG_TIME_FORMAT corresponds to plugin parameter `time_format`.
+* TAIL_FILE_LOG_FLUSH_INTERVAL corresponds to plugin parameter `flush_interval`.
+* TAIL_FILE_LOG_COMPRESS corresponds to plugin parameter `compress`
+* TAIL_FILE_LOG_APPEND corresponds to plugin parameter `append`
+* TAIL_FILE_LOG_FORMAT corresponds to plugin parameter `format`
 
 Full example:
 
@@ -150,38 +141,19 @@ $ docker run -d \
 	-v /var/lib/docker/containers:/var/lib/docker/containers \
 	-v /var/log/docker:/var/log/docker \
 	-v $(pwd)/logs:/opt/fluentd/logs \
-	-e "LOGS_DIRECTORIES=/var/lib/docker/containers /var/log/docker" \
-	-e "FILE_LOG_PATH=/opt/fluentd/logs/container" \
-	-e "FILE_LOG_TIME_SLICE_FORMAT=%Y%m%d%H" \
-	-e "FILE_LOG_TIME_SLICE_WAIT=10m" \
-	-e "FILE_LOG_TIME_FORMAT=%Y-%m-%d-%H-%M-%S" \
-	-e "FILE_LOG_FLUSH_INTERVAL=60s" \
-	-e "FILE_LOG_COMPRESS=true" \
-	-e "FILE_LOG_APPEND=true" \
-	-e "FILE_LOG_FORMAT=out_file" \
+	-e "TAIL_LOGS_DIRECTORIES=/var/lib/docker/containers /var/log/docker" \
+	-e "TAIL_FILE_LOG_PATH=/opt/fluentd/logs/container" \
+	-e "TAIL_FILE_LOG_TIME_SLICE_FORMAT=%Y%m%d%H" \
+	-e "TAIL_FILE_LOG_TIME_SLICE_WAIT=10m" \
+	-e "TAIL_FILE_LOG_TIME_FORMAT=%Y-%m-%d-%H-%M-%S" \
+	-e "TAIL_FILE_LOG_FLUSH_INTERVAL=60s" \
+	-e "TAIL_FILE_LOG_COMPRESS=true" \
+	-e "TAIL_FILE_LOG_APPEND=true" \
+	-e "TAIL_FILE_LOG_FORMAT=out_file" \
 	blacklabelops/fluentd
 ~~~~
 
 > Logs all docker logs with the specified plugin parameters.
-
-# Disabling the Basic behavior
-
-You can disable the file log out. This is useful when using this container as a base image for
-your custom container. The log file is disabled by the environment variable `DISABLE_FILE_OUT`.
-
-Example:
-
-~~~~
-$ docker run -d \
-	-v /var/lib/docker/containers:/var/lib/docker/containers \
-	-v /var/log/docker:/var/log/docker \
-	-v $(pwd)/logs:/opt/fluentd/logs \
-	-e "LOGS_DIRECTORIES=/var/lib/docker/containers /var/log/docker" \
-	-e "DISABLE_FILE_OUT=true" \
-	blacklabelops/fluentd
-~~~~
-
-> No attached logs will be written, the fluentd container is practically useless without another out plugin.
 
 # How To Extend This Image
 
@@ -197,9 +169,9 @@ RUN gem install ...
 # disable file logging from base container
 ENV DISABLE_FILE_OUT=true
 
-WORKDIR /etc/fluent
+WORKDIR /opt/fluentd
 COPY your-docker-entrypoint.sh /your/locations/your-docker-entrypoint.sh
-ENTRYPOINT ["/your/locations/your-docker-entrypoint.sh"]
+ENTRYPOINT ["/bin/tini","--","/your/locations/your-docker-entrypoint.sh"]
 CMD ["fluentd"]
 ~~~~
 
@@ -213,7 +185,7 @@ Write your entrypoint like this:
 
 # Invoke entrypoint of parent container
 if [ "$1" = 'fluentd' ]; then
-  /etc/fluent/docker-entrypoint.sh $@
+  exec /opt/fluentd/docker-entrypoint.sh $@
 fi
 
 exec "$@"
