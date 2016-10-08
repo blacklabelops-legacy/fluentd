@@ -1,4 +1,4 @@
-FROM blacklabelops/alpine:3.3
+FROM blacklabelops/alpine:3.4
 MAINTAINER Steffen Bleul <sbl@blacklabelops.com>
 
 # Build time arguments
@@ -14,6 +14,8 @@ RUN apk add --update \
       ruby-irb \
       ruby-dev && \
     echo 'gem: --no-document' >> /etc/gemrc && \
+    gem install oj && \
+    gem install json && \
     if  [ "${FLUENTD_VERSION}" = "latest" ]; \
       then gem install fluentd ; \
       else gem install fluentd -v ${FLUENTD_VERSION} ; \

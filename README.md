@@ -2,6 +2,8 @@
 
 [![Docker Stars](https://img.shields.io/docker/stars/blacklabelops/fluentd.svg)](https://hub.docker.com/r/blacklabelops/fluentd/) [![Docker Pulls](https://img.shields.io/docker/pulls/blacklabelops/fluentd.svg)](https://hub.docker.com/r/blacklabelops/fluentd/)
 
+Dockerized Fluentd can be used by Docker Logging Driver or simply attached to logs!
+
 ## Supported tags and respective Dockerfile links
 
 Leave a message and ask questions on Hipchat: [blacklabelops/hipchat](https://www.hipchat.com/geogBFvEM)
@@ -13,7 +15,58 @@ Leave a message and ask questions on Hipchat: [blacklabelops/hipchat](https://ww
 
 # Make It Short
 
-In short, this container can collect all logs from your complete docker environment and producing an aggraget log file. Just by running:
+1. In short, this container can be simply run as a docker log driver server:
+
+~~~~
+$ docker run -d \
+	-p 24224:24224 \
+	-e "FLUENTD_SOURCE_TCP=true" \
+	-e "FLUENTD_OUTPUT_STDOUT_PATTERN=docker.**" \
+	--name fluentd \
+	blacklabelops/fluentd
+~~~~
+
+> Fluentd will be now accessible as a logging driver server.
+
+Now run your docker container and log to fluentd
+
+~~~~
+$ docker run -d -p 80:8080 \
+		--log-driver=fluentd \
+  	--name jenkins \
+  	blacklabelops/jenkins
+~~~~
+
+> Will start an example Jenkins Server
+
+View your logs by running:
+
+~~~~
+$ docker logs fluentd
+~~~~
+
+# Running Behind a Firewall
+
+If you expose the port with `-p 24224:24224` it will be accesible on the internet. You can restrict this with `-p 127.0.0.1:24224:24224`
+
+~~~~
+$ docker run -d \
+		-p 127.0.0.1:24224:24224 \
+		-e "FLUENTD_SOURCE_TCP=true" \
+		-e "FLUENTD_OUTPUT_STDOUT_PATTERN=docker.**" \
+		--name fluentd \
+		blacklabelops/fluentd
+~~~~
+
+> Will only be accessible by local docker installation
+
+# Docker Log Driver Parameters
+
+Read this documentation on available options: [Fluentd logging driver](https://docs.docker.com/engine/admin/logging/fluentd/)
+
+# Attaching Fluentd To Logfiles
+
+1. In short, this container can collect all logs from your complete docker environment. Just by running:
 
 ~~~~
 $ docker run -d \
@@ -33,7 +86,7 @@ Now list the log files:
 $ ls logs/
 ~~~~
 
-# How To Attach Containers and Logs
+## How To Attach Containers and Logs
 
 In order to attach the side-car container to your logs you have to put your container's log inside
 Docker volumes. Simply add **-v /var/log** to your container's run command.
@@ -69,7 +122,7 @@ $ docker logs fluentd
 ...
 ~~~~
 
-# Log File Pattern
+## Log File Pattern
 
 Log file pattern with the ability to define file patterns.
 
@@ -84,9 +137,7 @@ $ docker run -d \
 
 > Attaches to all files inside those folders
 
-# Log File Regex
-
-# Customize Log Folder
+## Customize Log Folder
 
 You can define your own log folders. The container will by default crawl for
 files ending with **.log**. log folder have to be separated by empty spaces. This is useful when you mount volumes from several containers.
@@ -101,11 +152,11 @@ $ docker run -d \
 
 > Will crawl for log files inside /var/log and /jenkins
 
-# Customize Log File Ending
+## Customize Log File Ending
 
 *THIS IS DEPRECATED! USE LOG FILE PATTERN INSTEAD!*
 
-# Customize Log File Format
+## Customize Log File Format
 
 You can customize the file fomat. The container will by default use the format **none**. This can be overriden by
 the parameter LOG_FILE_FORMAT:
@@ -120,11 +171,11 @@ $ docker run -d \
 
 > This parameter will be set for ALL logfiles. For more formats and regexes check the [Fluentd Documentation](http://docs.fluentd.org/articles/in_tail).
 
-# Pos Files
+## Pos Files
 
 Pose Files will be written to Docker Volume /opt/fluentd
 
-# How To Customize the Log
+## How To Customize the Log
 
 This container is using the fluentd file Output plugin in order to write the aggregated logfiles.
 
@@ -172,6 +223,9 @@ MAINTAINER You
 
 #Install plugins and tools
 RUN gem install ...
+
+#Put some config to include
+COPY your-config-file /opt/fluentd/conf.d/yourconf.conf
 
 # disable file logging from base container
 ENV DISABLE_FILE_OUT=true

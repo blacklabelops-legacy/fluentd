@@ -2,6 +2,9 @@
 
 set -e
 
+cat > /opt/fluentd/generatedconf.d/generated-source.conf <<_EOF_
+_EOF_
+
 if [ "$FLUENTD_SOURCE_TCP" = 'true' ]; then
   fluentd_tcp_port="24224"
   if [ -n "${FLUENTD_SOURCE_TCP_PORT}" ]; then
@@ -12,7 +15,6 @@ if [ "$FLUENTD_SOURCE_TCP" = 'true' ]; then
   @type forward
   @id forward_input
   port ${fluentd_tcp_port}
-  bind 0.0.0.0
 </source>
 _EOF_
 fi
