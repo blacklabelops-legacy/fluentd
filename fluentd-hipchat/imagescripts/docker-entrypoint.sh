@@ -4,7 +4,10 @@
 
 set -e
 
-hipchat_match="containerlog.**"
+cat > /opt/fluentd/generatedconf.d/generated-hipchat-output.conf <<_EOF_
+_EOF_
+
+hipchat_match="**"
 
 if [ -n "${HIPCHAT_MATCH}" ]; then
   hipchat_match=${HIPCHAT_MATCH}
@@ -29,10 +32,10 @@ if [ -n "${HIPCHAT_COLOR}" ]; then
 fi
 
 if [ -n "${HIPCHAT_TOKEN}" ]; then
-  cat >> /etc/fluent/fluent.conf <<_EOF_
+  cat >> /opt/fluentd/generatedconf.d/generated-hipchat-output.conf <<_EOF_
 
 <match ${hipchat_match}>
-  type hipchat
+  @type hipchat
   api_token ${HIPCHAT_TOKEN}
   default_room ${hipchat_room}
   default_from ${hipchat_from}
@@ -48,7 +51,5 @@ fi
 
 # Invoke entrypoint of parent container
 if [ "$1" = 'fluentd' ]; then
-  /etc/fluent/docker-entrypoint.sh $@
+  exec /opt/fluentd/docker-entrypoint.sh $@
 fi
-
-exec "$@"
