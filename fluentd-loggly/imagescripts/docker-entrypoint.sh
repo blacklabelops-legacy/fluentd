@@ -17,7 +17,7 @@ if [ -n "${LOGGLY_TAG}" ]; then
   loggly_tag=${LOGGLY_TAG}
 fi
 
-loggly_match="containerlog.**"
+loggly_match="**"
 
 if [ -n "${LOGGLY_MATCH}" ]; then
   loggly_match=${LOGGLY_MATCH}
