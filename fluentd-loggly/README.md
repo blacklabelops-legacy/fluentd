@@ -1,5 +1,3 @@
-[![Docker Repository on Quay](https://quay.io/repository/blacklabelops/loggly/status "Docker Repository on Quay")](https://quay.io/repository/blacklabelops/loggly)
-
 Leave a message and ask questions on Hipchat: [blacklabelops/hipchat](https://www.hipchat.com/geogBFvEM)
 
 This is a side-car container that can hook to your docker or container logfiles. There is no additional
