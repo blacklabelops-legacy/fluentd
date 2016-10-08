@@ -9,7 +9,8 @@ if [ -n "${LOGGLY_ENV_FILE}" ]; then
 fi
 
 # Resetting conf file on each startup
-cp /opt/fluentd/fluent.conf /etc/fluent.conf
+cat > /opt/fluentd/generatedconf.d/generated-loggly-output.conf <<_EOF_
+_EOF_
 
 loggly_tag="fluentdloggly"
 
@@ -24,10 +25,10 @@ if [ -n "${LOGGLY_MATCH}" ]; then
 fi
 
 if [ -n "${LOGGLY_TOKEN}" ]; then
-  cat >> /etc/fluent/fluent.conf <<_EOF_
+  cat >> /opt/fluentd/generatedconf.d/generated-loggly-output.conf <<_EOF_
 
 <match ${loggly_match}>
-  type loggly
+  @type loggly
   loggly_url https://logs-01.loggly.com/inputs/${LOGGLY_TOKEN}/tag/${loggly_tag}
 </match>
 
@@ -37,8 +38,7 @@ fi
 unset LOGGLY_TOKEN
 
 # Invoke entrypoint of parent container
+# Invoke entrypoint of parent container
 if [ "$1" = 'fluentd' ]; then
-  /etc/fluent/docker-entrypoint.sh $@
+  exec /opt/fluentd/docker-entrypoint.sh $@
 fi
-
-exec "$@"
