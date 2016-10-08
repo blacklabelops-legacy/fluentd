@@ -1,8 +1,15 @@
 # Dockerized Fluentd
 
-[![Docker Stars](https://img.shields.io/docker/stars/blacklabelops/jenkins.svg)](https://hub.docker.com/r/blacklabelops/fluentd/) [![Docker Pulls](https://img.shields.io/docker/pulls/blacklabelops/jenkins.svg)](https://hub.docker.com/r/blacklabelops/fluentd/)
+[![Docker Stars](https://img.shields.io/docker/stars/blacklabelops/fluentd.svg)](https://hub.docker.com/r/blacklabelops/fluentd/) [![Docker Pulls](https://img.shields.io/docker/pulls/blacklabelops/fluentd.svg)](https://hub.docker.com/r/blacklabelops/fluentd/)
+
+## Supported tags and respective Dockerfile links
 
 Leave a message and ask questions on Hipchat: [blacklabelops/hipchat](https://www.hipchat.com/geogBFvEM)
+
+| Bundle | Version | Tags  | Dockerfile | Readme | Example |
+|--------|---------|-------|------------|--------|---------|
+| Fluentd | latest | latest | [Dockerfile](https://github.com/blacklabelops/fluentd/blob/master/Dockerfile) | [Readme](https://github.com/blacklabelops/fluentd/blob/master/README.md) | blacklabelops/fluentd:latest |
+| Loggly | latest | loggly | [Dockerfile](https://github.com/blacklabelops/fluentd/blob/master/fluentd-loggly/Dockerfile) | [Readme](https://github.com/blacklabelops/fluentd/blob/master/fluentd-loggly/README.md) | blacklabelops/fluentd:loggly |
 
 # Make It Short
 

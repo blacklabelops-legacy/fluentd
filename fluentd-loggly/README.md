@@ -1,5 +1,3 @@
-[![Circle CI](https://circleci.com/gh/blacklabelops/fluentd/tree/master.svg?style=shield)](https://circleci.com/gh/blacklabelops/fluentd/tree/master)
-[![Image Layers](https://badge.imagelayers.io/blacklabelops/loggly:latest.svg)](https://imagelayers.io/?images=blacklabelops/loggly:latest 'Get your own badge on imagelayers.io')
 [![Docker Repository on Quay](https://quay.io/repository/blacklabelops/loggly/status "Docker Repository on Quay")](https://quay.io/repository/blacklabelops/loggly)
 
 Leave a message and ask questions on Hipchat: [blacklabelops/hipchat](https://www.hipchat.com/geogBFvEM)
@@ -21,7 +19,7 @@ $ docker run -d \
 	-e "LOGS_DIRECTORIES=/var/lib/docker/containers /var/log/docker" \
 	-e "LOGGLY_TOKEN=3ere-23kkke-23j3oj-mmkme-343" \
 	--name loggly \
-	blacklabelops/loggly
+	blacklabelops/fluentd:loggly
 ~~~~
 
 > Mounts the docker system logs and attaches to all log files in the respective directories. You need a loggly access token from loggly.com.
@@ -49,7 +47,7 @@ $ docker run -d \
   --volumes-from jenkins \
 	-e "LOGGLY_TOKEN=3ere-23kkke-23j3oj-mmkme-343" \
   --name loggly \
-  blacklabelops/loggly
+  blacklabelops/fluentd:loggly
 ~~~~
 
 > Now grab logs by typing docker logs loggly
@@ -73,7 +71,7 @@ $ docker run -d \
 	-e "LOGGLY_TOKEN=3ere-23kkke-23j3oj-mmkme-343" \
 	-e "LOGGLY_TAG=jenkinslog" \
   --name loggly \
-  blacklabelops/loggly
+  blacklabelops/fluentd:loggly
 ~~~~
 
 # Customize Log Directories, File Endings and More

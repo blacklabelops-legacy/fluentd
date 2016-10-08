@@ -1,5 +1,5 @@
-jenkins:
-  image: blacklabelops/fluentd
+fluentd:
+  image: blacklabelops/fluentd:loggly
   volumes:
    - /opt/fluentd
   environment:
