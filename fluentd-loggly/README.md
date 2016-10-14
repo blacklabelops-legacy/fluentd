@@ -8,6 +8,44 @@ Great for Cloud Containers! I use this inside the Google Container Cloud.
 
 # Make It Short
 
+You can send all your docker logs to Loggly just by typing:
+
+~~~~
+$ docker run -d \
+		-p 24224:24224 \
+		-e "FLUENTD_SOURCE_TCP=true" \
+		-e "LOGGLY_TOKEN=3ere-23kkke-23j3oj-mmkme-343" \
+		--name loggly \
+		blacklabelops/fluentd:loggly
+~~~~
+
+> Starts a local Fluentd log server with Loggly.com log forwarding.
+
+Now send log messages to Loggly.com!
+
+~~~~
+$ docker run --rm --log-driver=fluentd blacklabelops/alpine echo "Hello World"
+~~~~
+
+> The docker log-driver mechanism will send all docker log output to Loggly!
+
+# Running Behind a Firewall
+
+If you expose the port with `-p 24224:24224` it will be accesible on the internet. You can restrict this with `-p 127.0.0.1:24224:24224`
+
+~~~~
+$ docker run -d \
+		-p 127.0.0.1:24224:24224 \
+		-e "FLUENTD_SOURCE_TCP=true" \
+		-e "LOGGLY_TOKEN=3ere-23kkke-23j3oj-mmkme-343" \
+		--name loggly \
+		blacklabelops/fluentd:loggly
+~~~~
+
+> Will only be accessible by local docker installation
+
+# Attaching To Logs
+
 In short, this container can collect all logs from your complete docker environment and forward them live to loggly. Just by running:
 
 ~~~~
@@ -22,7 +60,7 @@ $ docker run -d \
 
 > Mounts the docker system logs and attaches to all log files in the respective directories. You need a loggly access token from loggly.com.
 
-# Configuration
+## Configuration
 
 In order to attach the side-car container to your logs you have to put your container's log inside
 Docker volumes. Simply add **-v /var/log** to your container's run command.
@@ -59,7 +97,7 @@ $ docker logs loggly
 ...
 ~~~~
 
-# Customize Loggly Tag
+## Customize Loggly Tag
 
 You can define your own loggly log tag.
 
@@ -72,15 +110,16 @@ $ docker run -d \
   blacklabelops/fluentd:loggly
 ~~~~
 
-# Customize Log Directories, File Endings and More
+## Customize Log Directories, File Endings and More
 
 Read the README of the base container.
 
 [blacklabelops/fluentd](../README.md)
 
-## References
+# References
 
 * [Loggly Homepage](https://www.loggly.com/)
 * [Fluentd Homepage](http://www.fluentd.org/)
+* [Fluentd-Loggly-Plugin](https://github.com/patant/fluent-plugin-loggly)
 * [Docker Homepage](https://www.docker.com/)
 * [Docker Userguide](https://docs.docker.com/userguide/)
