@@ -6,8 +6,6 @@ Dockerized Fluentd can be used by Docker Logging Driver or simply attached to lo
 
 ## Supported tags and respective Dockerfile links
 
-Leave a message and ask questions on Hipchat: [blacklabelops/hipchat](https://www.hipchat.com/geogBFvEM)
-
 | Bundle | Version | Tags  | Dockerfile | Readme | Example |
 |--------|---------|-------|------------|--------|---------|
 | Fluentd | latest | latest | [Dockerfile](https://github.com/blacklabelops/fluentd/blob/master/Dockerfile) | [Readme](https://github.com/blacklabelops/fluentd/blob/master/README.md) | blacklabelops/fluentd:latest |
@@ -272,6 +270,9 @@ First install:
 * [Vagrant](https://www.vagrantup.com/)
 * [Virtualbox](https://www.virtualbox.org/)
 
+# Support
+
+Leave a message and ask questions on Hipchat: [blacklabelops/hipchat](http://support.blacklabelops.com)
 
 # References
 
