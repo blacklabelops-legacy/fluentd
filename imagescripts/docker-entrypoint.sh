@@ -20,7 +20,7 @@ if [ "$1" = 'fluentd' ]; then
     cat ${fluentd_config}
     source /opt/fluentd/create-sources-config.sh
     source /opt/fluentd/create-output-config.sh
-    if [ -n "${TAIL_LOG_FILE_PATTERN}" ] || [ -n "${TAIL_LOG_FILE_ENDINGS}" ] || [ -n "${TAIL_LOG_FILE_ENDINGS}" ]; then
+    if [ -n "${TAIL_LOGS_DIRECTORIES}" ] || [ -n "${TAIL_LOG_FILE_PATTERN}" ] || [ -n "${TAIL_LOG_FILE_ENDINGS}" ] || [ -n "${TAIL_LOG_FILE_ENDINGS}" ]; then
       source /opt/fluentd/create-tail-config.sh
     fi
   fi
