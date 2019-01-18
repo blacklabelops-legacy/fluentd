@@ -1,7 +1,5 @@
 # Dockerized Fluentd
 
-[![Docker Stars](https://img.shields.io/docker/stars/blacklabelops/fluentd.svg)](https://hub.docker.com/r/blacklabelops/fluentd/) [![Docker Pulls](https://img.shields.io/docker/pulls/blacklabelops/fluentd.svg)](https://hub.docker.com/r/blacklabelops/fluentd/)
-
 Dockerized Fluentd can be used by Docker Logging Driver or simply attached to logs!
 
 ## Supported tags and respective Dockerfile links
@@ -269,10 +267,6 @@ First install:
 
 * [Vagrant](https://www.vagrantup.com/)
 * [Virtualbox](https://www.virtualbox.org/)
-
-# Support
-
-Leave a message and ask questions on Hipchat: [blacklabelops/hipchat](http://support.blacklabelops.com)
 
 # References
 
